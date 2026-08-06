@@ -1,6 +1,7 @@
 const mineflayer = require('mineflayer');
 const http = require('http');
 
+// فتح سيرفر HTTP لإبقاء الخدمة تعمل على Render
 const port = process.env.PORT || 3000;
 http.createServer((req, res) => {
   res.writeHead(200, { 'Content-Type': 'text/plain' });
@@ -10,14 +11,15 @@ http.createServer((req, res) => {
 });
 
 function connectBot() {
-  console.log('Connecting to Aternos...');
+  console.log('Connecting to Aternos via DynIP...');
 
   const bot = mineflayer.createBot({
     host: 'AlWorldA3.aternos.me',
     port: 61658,
     username: 'AFK_Bot_Helper',
-    version: '1.20.4', // تحديد إصدار مستقر يتوافق مع سيرفرات 1.20+/1.21 عبر ViaVersion/Paper
-    checkTimeoutInterval: 60000
+    auth: 'offline',
+    checkTimeoutInterval: 90000, // زيادة وقت الانتظار لتفادي ETIMEDOUT
+    defaultChatPatterns: false
   });
 
   bot.on('login', () => {
@@ -29,8 +31,8 @@ function connectBot() {
   });
 
   bot.on('end', (reason) => {
-    console.log(`Bot disconnected (${reason}). Reconnecting in 15 seconds...`);
-    setTimeout(connectBot, 15000);
+    console.log(`Bot disconnected (${reason}). Reconnecting in 10 seconds...`);
+    setTimeout(connectBot, 10000);
   });
 
   bot.on('error', (err) => {
