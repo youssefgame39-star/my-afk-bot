@@ -1,7 +1,7 @@
 const mineflayer = require('mineflayer');
 const http = require('http');
 
-// فتح سيرفر HTTP لإبقاء الخدمة شغال على Render
+// فتح سيرفر HTTP لمنع Render من إغلاق البوت
 const port = process.env.PORT || 3000;
 http.createServer((req, res) => {
   res.writeHead(200, { 'Content-Type': 'text/plain' });
@@ -14,8 +14,10 @@ function createBot() {
   console.log('Connecting to Minecraft server...');
   
   const bot = mineflayer.createBot({
-    host: 'AlWorldA3.aternos.me', // استخدام العنوان الثابت
-    username: 'AFK_Bot_Helper'
+    host: 'AlWorldA3.aternos.me',
+    port: 61658, // اكتب رقم الـ Port الظاهر لك في صفحة Aternos هنا
+    username: 'AFK_Bot_Helper',
+    version: false // يسمح للبوت بالتعرف على إصدار السيرفر تلقائياً
   });
 
   bot.on('login', () => {
